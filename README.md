@@ -1,6 +1,6 @@
 # Firebase SBHacks Workshop (firebase-vue-sbhacks-workshop)
 
-Bulding and deploying a production grade app with Firebase in 30 minutes
+Bulding and deploying a production grade app with Firebase and Quasar/Vue.js in 30 minutes
 
 ## Getting started on your local machine (recommended)
 
@@ -10,8 +10,17 @@ Bulding and deploying a production grade app with Firebase in 30 minutes
 npm install -g firebase-tools
 npm install -g @quasar/cli
 npm install
+```
+
+### Configure Firebase
+
+Create a Firebase project and a web app,
+copy-paste you specific `firebaseConfig` to `src/firebase-config.ts`,
+then run the following commands and select the project you just created.
+
+```bash
 firebase login
-firebase use --add --alias default
+firebase use --add
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
@@ -32,7 +41,3 @@ npm run lint
 quasar build
 firebase deploy
 ```
-
-### Customize the configuration
-
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).

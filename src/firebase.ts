@@ -8,8 +8,6 @@ import './firebase-config'
 import { Team, User } from './models'
 
 const firebaseState = (() => {
-  const provider = new firebase.auth.GoogleAuthProvider()
-
   let currentUserRef: firebase.firestore.DocumentReference<User>|undefined
   const usersCollection = firebase.firestore().collection('users') as firebase.firestore.CollectionReference<User>
   const teamsCollection = firebase.firestore().collection('teams') as firebase.firestore.CollectionReference<Team>
@@ -29,7 +27,12 @@ const firebaseState = (() => {
         currentUser.value = currentUserDoc.data() as User
       } else {
         // Create user profile
-        currentUser.value = { uid: account.uid, name: account.displayName || 'Anonymous', photoURL: account.photoURL || '', team: '' }
+        currentUser.value = {
+          uid: account.uid,
+          name: account.displayName || 'Anonymous',
+          photoURL: account.photoURL || '',
+          team: ''
+        }
         await currentUserRef.set(currentUser.value)
       }
 
@@ -52,6 +55,7 @@ const firebaseState = (() => {
   return {
     signIn: async () => {
       console.log('Logging in...')
+      const provider = new firebase.auth.GoogleAuthProvider()
       await firebase.auth().signInWithPopup(provider)
     },
     signOut: async () => {
