@@ -1,24 +1,24 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page class="column items-center justify-center">
     <template>
-  <div>
-    <q-spinner v-if="!ready" size="100" />
-    <div v-else-if="currentUser">
-      <team-component :team="team" v-for="team in teams" :key="team.id"></team-component>
+      <div>
+        <team-component
+          :currentUserTeam="currentUser.team"
+          :team="team" v-for="team in teams" 
+          :key="team.id"></team-component>
+      </div>
       <q-input outlined v-model="teamName" label="Create new team">
         <template v-slot:append>
           <q-btn round dense flat icon="add" @click="createTeam(teamName)" />
         </template>
       </q-input>
-    </div>
-  </div>
-</template>
+    </template>
   </q-page>
 </template>
 
 <script lang="ts">
-import TeamComponent from 'components/TeamComponent.vue'
-import { defineComponent, ref } from '@vue/composition-api'
+import TeamComponent from 'components/Team.vue'
+import { computed, defineComponent, ref } from '@vue/composition-api'
 import { useFirebase } from 'src/firebase'
 
 export default defineComponent({
@@ -26,9 +26,12 @@ export default defineComponent({
   components: { TeamComponent },
   setup () {
     const teamName = ref('')
+    const {currentUser, teams, createTeam} = useFirebase();
     return {
+      currentUser,
+      teams,
       teamName,
-      ...useFirebase()
+      createTeam
     }
   }
 })

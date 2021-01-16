@@ -2,7 +2,7 @@
   <q-card>
     <q-card-section>
       {{ team.name }}
-      <q-btn v-if="currentUser.team !== team.id" label="Join" @click="joinTeam(team.id)" />
+      <q-btn v-if="currentUserTeam !== team.id" label="Join" @click="joinTeam(team.id)" />
     </q-card-section>
     <q-card-section>
       <div v-for="user in users" :key="user.uid">
@@ -29,15 +29,18 @@
 
 import { defineComponent } from '@vue/composition-api'
 import { useFirebase } from '../firebase'
+import { Team } from '../models'
 
 export default defineComponent({
-  name: 'TeamComponent',
+  name: 'Team',
   props: {
-    team: Object
+    currentUserTeam: String,
+    team: Team
   },
   setup () {
     return {
-      ...useFirebase()
+      users: useFirebase().users,
+      joinTeam: useFirebase().joinTeam
     }
   }
 })

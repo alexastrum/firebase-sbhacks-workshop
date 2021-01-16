@@ -8,6 +8,7 @@ Bulding and deploying a production grade app with Firebase in 30 minutes
 
 ```bash
 npm install -g firebase-tools
+npm install -g @quasar/cli
 npm install
 firebase login
 firebase use --add --alias default

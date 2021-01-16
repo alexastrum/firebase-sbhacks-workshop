@@ -17,6 +17,9 @@
 
         <div v-if="currentUser">
           <q-btn flat label="Sign out" @click="signOut()" />
+          <q-avatar v-if="currentUser.photoURL">
+            <img :src="currentUser.photoURL">
+          </q-avatar>
         </div>
         <div v-else>
           <q-btn flat label="Sign in with Google" @click="signIn()" />
@@ -46,7 +49,10 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <q-page v-if="!ready" class="row items-center justify-center">
+        <q-spinner size="100" />
+      </q-page>
+      <router-view ng-if="ready && currentUser" />
     </q-page-container>
   </q-layout>
 </template>
@@ -96,8 +102,8 @@ export default defineComponent({
   setup () {
     const leftDrawerOpen = ref(false)
     const essentialLinks = ref(linksData)
-
-    return { leftDrawerOpen, essentialLinks, ...useFirebase() }
+    const {signIn, signOut, ready, currentUser} = useFirebase();
+    return { leftDrawerOpen, essentialLinks, ready, currentUser, signIn, signOut}
   }
 })
 </script>
