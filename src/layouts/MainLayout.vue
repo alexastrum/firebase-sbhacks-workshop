@@ -14,15 +14,23 @@
         <q-toolbar-title>
           Firebase SBHacks Workshop
         </q-toolbar-title>
-
-        <div v-if="currentUser">
-          <q-btn flat label="Sign out" @click="signOut()" />
-          <q-avatar v-if="currentUser.photoURL">
-            <img :src="currentUser.photoURL">
-          </q-avatar>
-        </div>
-        <div v-else>
-          <q-btn flat label="Sign in with Google" @click="signIn()" />
+        <div v-if="ready">
+          <div v-if="currentUser">
+            <q-btn
+              flat
+              label="Sign out"
+              @click="signOut()"
+            />
+            <avatar :user="currentUser">
+            </avatar>
+          </div>
+          <div v-else>
+            <q-btn
+              flat
+              label="Sign in with Google"
+              @click="signIn()"
+            />
+          </div>
         </div>
       </q-toolbar>
     </q-header>
@@ -40,8 +48,8 @@
         >
           Essential Links
         </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
+        <sidebar-link
+          v-for="link in links"
           :key="link.title"
           v-bind="link"
         />
@@ -49,61 +57,41 @@
     </q-drawer>
 
     <q-page-container>
-      <q-page v-if="!ready" class="row items-center justify-center">
+      <q-page
+        v-if="!ready"
+        class="row items-center justify-center"
+      >
         <q-spinner size="100" />
       </q-page>
-      <router-view ng-if="ready && currentUser" />
+      <router-view v-else-if="currentUser" />
+      <q-banner
+        v-else
+        rounded
+        class="q-ma-md bg-orange text-white"
+      >Sign in to use this app.</q-banner>
     </q-page-container>
   </q-layout>
 </template>
 
 <script lang="ts">
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
-  {
-    title: 'Github',
-    caption: 'github.com/alexastrum/firebase-sbhacks-workshop',
-    icon: 'code',
-    link: 'https://github.com/alexastrum/firebase-vue-sbhacks-workshop'
-  },
-  {
-    title: 'Firebase Docs',
-    caption: 'The serverless secret sause',
-    icon: 'school',
-    link: 'https://firebase.google.com/'
-  },
-  {
-    title: 'Vuejs Docs',
-    caption: 'The web app secret sauce',
-    icon: 'school',
-    link: 'https://v3.vuejs.org/guide'
-  },
-  {
-    title: 'Quasar Docs',
-    caption: 'Cross-platform Material Design framework',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'SBHacks VII',
-    caption: 'Hackathon official website',
-    icon: 'favorite',
-    link: 'https://sbhacks.com/'
-  }
-]
-
 import { defineComponent, ref } from '@vue/composition-api'
-import { useFirebase } from '../firebase'
+import { firebaseService } from 'src/firebase-service'
+import Avatar from 'src/components/Avatar.vue'
+import SidebarLink from 'src/components/SidebarLink.vue'
+import links from 'src/config/links'
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { EssentialLink },
+  components: { SidebarLink, Avatar },
   setup () {
-    const leftDrawerOpen = ref(false)
-    const essentialLinks = ref(linksData)
-    const {signIn, signOut, ready, currentUser} = useFirebase();
-    return { leftDrawerOpen, essentialLinks, ready, currentUser, signIn, signOut}
+    return {
+      leftDrawerOpen: ref(false),
+      links: ref(links),
+      ready: firebaseService.ready,
+      currentUser: firebaseService.currentUser,
+      signIn: () => firebaseService.signIn(),
+      signOut: () => firebaseService.signOut()
+    }
   }
 })
 </script>
