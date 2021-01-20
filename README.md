@@ -1,4 +1,4 @@
-# Firebase SBHacks Workshop (firebase-sbhacks-workshop)
+# Firebase SBHacks Workshop
 
 Buld and deploy a production ready app with Firebase and Quasar/Vue.js in 30 minutes.
 
