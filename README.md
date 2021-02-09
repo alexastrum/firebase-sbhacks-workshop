@@ -11,6 +11,8 @@ git clone https://github.com/alexastrum/firebase-sbhacks-workshop.git
 cd firebase-sbhacks-workshop
 ```
 
+We'll run all commands bellow from the project's root dir.
+
 ### Install the dependencies
 
 You'll need a stable [Node JS](https://nodejs.org) Long Term Support version (e.g 12, 14, ...).
