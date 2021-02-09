@@ -11,7 +11,7 @@ git clone https://github.com/alexastrum/firebase-sbhacks-workshop.git
 cd firebase-sbhacks-workshop
 ```
 
-We'll run all commands bellow from the project's root dir.
+**We'll run all commands bellow from the project's root dir.**
 
 ### Install the dependencies
 
@@ -26,10 +26,15 @@ npm install
 
 ### Configure Firebase
 
-Create a Firebase project, or select an existing one.
+Authenticate your Firebase CLI.
 
 ```bash
 firebase login
+```
+
+Create a Firebase project, or select an existing one ().
+
+```bash
 firebase use --add
 ```
 
@@ -37,6 +42,7 @@ firebase use --add
 - Scroll down to the *You apps* section, click on **Config** radio button in the *Firebase SDK Snippet* subsection for you app.
 
 Copy-paste you app's `firebaseConfig` to `src/config/firebase.ts`, replacing the exisign `firebaseConfig` object.
+Do not remove the export line.
 You can find more info about the config object in the [official docs](https://firebase.google.com/docs/web/setup?authuser=0#config-object).
 
 ```bash
