@@ -11,7 +11,7 @@ git clone https://github.com/alexastrum/firebase-sbhacks-workshop.git
 cd firebase-sbhacks-workshop
 ```
 
-**We'll run all commands bellow from the project's root dir.**
+**We'll run all commands below from the project's root dir.**
 
 ### Install the dependencies
 
