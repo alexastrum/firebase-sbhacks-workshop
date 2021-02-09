@@ -4,15 +4,17 @@ Buld and deploy a production ready app with Firebase and Quasar/Vue.js in 30 min
 
 ## Getting started on your local machine (recommended)
 
-Get the source code:
+To get the source code, run the following from your cmd line terminal:
 
 ```bash
 git clone https://github.com/alexastrum/firebase-sbhacks-workshop.git
+cd firebase-sbhacks-workshop
 ```
 
 ### Install the dependencies
 
-You'll need [Node JS](https://nodejs.org). Make sure you can run `node` commands from any folder in your Terminal.
+You'll need a stable [Node JS](https://nodejs.org) Long Term Support version (e.g 12, 14, ...).
+Make sure you can run `node` commands from any folder in your Terminal.
 
 ```bash
 npm install -g firebase-tools
@@ -22,11 +24,18 @@ npm install
 
 ### Configure Firebase
 
-Follow the instruction on how to [add Firebase to your Node.js app](https://firebase.google.com/docs/web/setup?authuser=0#node.js-apps).
+Create a Firebase project, or select an existing one.
 
-Copy-paste you app's `firebaseConfig` to `src/config/firebase.ts`.
+```bash
+firebase login
+firebase use --add
+```
 
-To deploy to Firebase Hosting, you'll use the Firebase CLI, a command-line tool.
+- In the [Firebase console](https://console.firebase.google.com), click the cog icon next to *Project Overview* then open **Project settings**.
+- Scroll down to the *You apps* section, click on **Config** radio button in the *Firebase SDK Snippet* subsection for you app.
+
+Copy-paste you app's `firebaseConfig` to `src/config/firebase.ts`, replacing the exisign `firebaseConfig` object.
+You can find more info about the config object in the [official docs](https://firebase.google.com/docs/web/setup?authuser=0#config-object).
 
 ```bash
 firebase login
@@ -40,6 +49,8 @@ quasar dev
 ```
 
 ### Deploy the app to Firebase Hosting
+
+To deploy to Firebase Hosting, you'll use the Firebase CLI, a command-line tool:
 
 ```bash
 quasar build
