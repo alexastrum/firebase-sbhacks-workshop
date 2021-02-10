@@ -32,7 +32,7 @@ Authenticate your Firebase CLI.
 firebase login
 ```
 
-Create a Firebase project, or select an existing one ().
+Create a Firebase project, or select an existing one.
 
 ```bash
 firebase use --add
@@ -41,9 +41,9 @@ firebase use --add
 - In the [Firebase console](https://console.firebase.google.com), click the cog icon next to *Project Overview* then open **Project settings**.
 - Scroll down to the *You apps* section, click on **Config** radio button in the *Firebase SDK Snippet* subsection for you app.
 
-Copy-paste you app's `firebaseConfig` to `src/config/firebase.ts`, replacing the exisign `firebaseConfig` object.
+Copy-paste you app's `firebaseConfig` to `src/config/firebase.ts`, replacing the existing `firebaseConfig` object.
 Do not remove the export line.
-You can find more info about the config object in the [official docs](https://firebase.google.com/docs/web/setup?authuser=0#config-object).
+You can find more info about the config object in the [official documentation](https://firebase.google.com/docs/web/setup?authuser=0#config-object).
 
 ```bash
 firebase login
