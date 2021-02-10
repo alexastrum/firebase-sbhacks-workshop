@@ -4,8 +4,8 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 import firebaseConfig from './config/firebase'
-import { useFirebase, useFirebaseAuth, useFirestoreQuery } from './firebase-vue'
-import { User } from './models'
+import { useFirebase, useFirebaseAuth, useFirestoreQuery, FirestoreQueryDoc } from './firebase-vue'
+import { Team, User } from './models'
 
 class FirebaseService {
   // The collection with user data, keyed by uid.
@@ -31,7 +31,7 @@ class FirebaseService {
   // List all user profiles.
   readonly users = useFirestoreQuery(() => this.auth.signedIn ? this.usersCollection : null);
 
-  readonly teams = ref([]);
+  readonly teams = ref<FirestoreQueryDoc<Team>[]>([]);
 
   async signIn () {
     console.log('Logging in...')

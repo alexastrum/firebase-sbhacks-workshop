@@ -3,8 +3,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 import firebaseConfig from './config/firebase'
-import { useFirebase, useFirebaseAuth } from './firebase-vue'
-import { User } from './models'
+import { useFirebase, useFirebaseAuth, FirestoreQueryDoc } from './firebase-vue'
+import { Team, User } from './models'
 
 class FirebaseService {
   // Firebase Auth state.
@@ -20,9 +20,9 @@ class FirebaseService {
   // Display the spinner until Firebase Auth is fully initialized.
   readonly ready = computed(() => this.auth.ready)
 
-  readonly users = ref([]);
+  readonly users = ref<FirestoreQueryDoc<User>[]>([]);
 
-  readonly teams = ref([]);
+  readonly teams = ref<FirestoreQueryDoc<Team>[]>([]);
 
   async signIn () {
     console.log('Logging in...')

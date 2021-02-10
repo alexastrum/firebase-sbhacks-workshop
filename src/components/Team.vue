@@ -30,7 +30,7 @@
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api'
 import { firebaseService } from 'src/firebase-service'
-import { FirestoreDocResult } from 'src/firebase-util'
+import { FirestoreDocResult } from 'src/firebase-vue'
 import { Team } from 'src/models'
 import AvatarComponent from './Avatar.vue'
 

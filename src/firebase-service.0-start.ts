@@ -1,13 +1,15 @@
 import { ref } from '@vue/composition-api'
+import { Team, User } from './models'
+import { FirestoreQueryDoc } from './firebase-vue'
 
 class FirebaseService {
-  readonly currentUser = ref(null);
+  readonly currentUser = ref<User | null>(null);
 
   readonly ready = ref(true);
 
-  readonly users = ref([]);
+  readonly users = ref<FirestoreQueryDoc<User>[]>([]);
 
-  readonly teams = ref([]);
+  readonly teams = ref<FirestoreQueryDoc<Team>[]>([]);
 
   signIn () {
     console.log('Logging in...')

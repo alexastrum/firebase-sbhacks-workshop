@@ -1,73 +1,35 @@
-import { computed } from '@vue/composition-api'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
-
-import firebaseConfig from './config/firebase'
-import { useFirebase, useFirebaseAuth, useFirestoreQuery } from './firebase-vue'
+import { ref } from '@vue/composition-api'
 import { Team, User } from './models'
+import { FirestoreQueryDoc } from './firebase-vue'
 
 class FirebaseService {
-  // The collection with user data, keyed by uid.
-  private readonly usersCollection = firebase.firestore().collection('users') as firebase.firestore.CollectionReference<User>;
+  readonly currentUser = ref<User | null>(null);
 
-  private readonly teamsCollection = firebase.firestore().collection('teams') as firebase.firestore.CollectionReference<Team>;
+  readonly ready = ref(true);
 
-  // Firebase Auth state.
-  private readonly auth = useFirebaseAuth<User>({
-    // Fetch or create user data, after sign in.
-    dataCollection: this.usersCollection,
-    dataGetter: user => ({
-      name: user.displayName || 'Anonymous',
-      photoURL: user.photoURL || '',
-      team: ''
-    })
-  });
+  readonly users = ref<FirestoreQueryDoc<User>[]>([]);
 
-  // Display current user data once loaded.
-  readonly currentUser = computed(() => this.auth.currentUserData);
+  readonly teams = ref<FirestoreQueryDoc<Team>[]>([]);
 
-  // Display the spinner until Firebase Auth is initialized and the user profile is loaded.
-  readonly ready = computed(() => this.auth.ready)
-
-  // List all user profiles.
-  readonly users = useFirestoreQuery(() => this.auth.signedIn ? this.usersCollection : null);
-
-  // List all teams.
-  readonly teams = useFirestoreQuery(() => this.auth.signedIn ? this.teamsCollection : null);
-
-  async signIn () {
+  signIn () {
     console.log('Logging in...')
-    const provider = new firebase.auth.GoogleAuthProvider()
-    await firebase.auth().signInWithPopup(provider)
-    console.log('Done logging in')
+    throw new Error('Not implemented')
   }
 
-  async signOut () {
+  signOut () {
     console.log('Logging out...')
-    await firebase.auth().signOut()
-    console.log('Done logging out')
+    throw new Error('Not implemented')
   }
 
-  async createTeam (teamName: string) {
+  createTeam (teamName: string) {
     console.log(`Creating team ${teamName}...`)
-    const teamRef = await this.teamsCollection.add({ name: teamName })
-    console.log('Done creating team.')
-    await this.joinTeam(teamRef.id)
+    throw new Error('Not implemented')
   }
 
-  async joinTeam (teamId: string) {
-    const { currentUser } = firebase.auth()
-    if (!currentUser) {
-      return
-    }
+  joinTeam (teamId: string) {
     console.log(`Joining team with id ${teamId}...`)
-    await this.usersCollection.doc(currentUser.uid).update({ team: teamId })
-    console.log('Done joining team.')
+    throw new Error('Not implemented')
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-useFirebase({ firebaseConfig })
 
 export const firebaseService = new FirebaseService()
