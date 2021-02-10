@@ -14,7 +14,7 @@ export default [
   },
   {
     title: 'Firebase Docs',
-    caption: 'The serverless secret sause',
+    caption: 'The serverless secret sauce',
     icon: 'school',
     link: 'https://firebase.google.com/'
   },
