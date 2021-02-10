@@ -18,9 +18,20 @@ cd firebase-sbhacks-workshop
 You'll need a stable [Node JS](https://nodejs.org) Long Term Support version (e.g 12, 14, ...).
 Make sure you can run `node` commands from any folder in your Terminal.
 
+Install Firebase CLI tools:
+
 ```bash
 npm install -g firebase-tools
+```
+
+Then install the framework we'll use, Quasar:
+
+```bash
 npm install -g @quasar/cli
+```
+Then install project dependencies:
+
+```bash
 npm install
 ```
 
