@@ -8,31 +8,41 @@ To get the source code, run the following from your cmd line terminal:
 
 ```bash
 git clone https://github.com/alexastrum/firebase-sbhacks-workshop.git
+```
+
+We'll run all commands below from the project's root dir.
+
+```bash
 cd firebase-sbhacks-workshop
 ```
 
-**We'll run all commands below from the project's root dir.**
-
 ### Install the dependencies
 
-You'll need a stable [Node JS](https://nodejs.org) Long Term Support version (e.g 12, 14, ...).
+You'll need a stable [Node JS](https://nodejs.org) version (e.g 12, 14, ...).
+If `firebase` or `quasar` tools give an error, you might need to upgrade or downgrade your node version.
+
 Make sure you can run `node` commands from any folder in your Terminal.
 
-Install Firebase CLI tools:
+Install the latest Firebase CLI tools:
 
 ```bash
 npm install -g firebase-tools
 ```
 
-Then install the framework we'll use, Quasar:
+Install the framework we'll use, Quasar:
 
 ```bash
 npm install -g @quasar/cli
 ```
+Install `yarn` – a faster node package manager:
+
+```bash
+npm install -g yarn
+```
 Then install project dependencies:
 
 ```bash
-npm install
+yarn
 ```
 
 ### Configure Firebase
@@ -56,11 +66,6 @@ Copy-paste you app's `firebaseConfig` to `src/config/firebase.ts`, replacing the
 Do not remove the export line.
 You can find more info about the config object in the [official documentation](https://firebase.google.com/docs/web/setup?authuser=0#config-object).
 
-```bash
-firebase login
-firebase use --add
-```
-
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 
 ```bash
@@ -69,10 +74,15 @@ quasar dev
 
 ### Deploy the app to Firebase Hosting
 
-To deploy to Firebase Hosting, you'll use the Firebase CLI, a command-line tool:
+Build a production version of our app.
 
 ```bash
 quasar build
+```
+
+To deploy to Firebase Hosting, you'll use the Firebase CLI, a command-line tool:
+
+```bash
 firebase deploy
 ```
 
@@ -89,9 +99,16 @@ Enable Google Sign-In in the Firebase console:
 
 ---
 
-Open `src/firebase-service.ts` in VS Code.
+Open `src/firebase-service.ts` in your text editor.
 
-Update `FirebaseService` to contain:
+I strongly recommend using Visual Studio Code.
+I also recommend to install *recommended extensions for this repository* when prompted.
+
+```ts
+code .
+```
+
+Update `FirebaseService` replacing `currentUser` and `ready` properties with:
 
 ```ts
 class FirebaseService {
@@ -116,12 +133,13 @@ class FirebaseService {
 ```
 
 Vue.js is a reactive framework. Our `firebase-vue` utilities return reactive object references.
-But any derived values would need to be wrapped in [computed](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) calls.
+However any derived values would need to be wrapped in [computed](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) calls.
 
 Add any missing imports. Remember to include:
 
 ```ts
 import "firebase/auth";
+import {useFirebaseAuth} from "./firebase-vue";
 ```
 
 Implement Firebase with Google Auth logic inside the `signIn()` method:
@@ -130,6 +148,8 @@ Implement Firebase with Google Auth logic inside the `signIn()` method:
 const provider = new firebase.auth.GoogleAuthProvider();
 await firebase.auth().signInWithPopup(provider);
 ```
+
+Make sure you didn't introduce any errors.
 
 Test the new sign in functionality.
 
@@ -147,7 +167,7 @@ Test the new sign out functionality.
 
 Create a [Cloud Firestore database](https://firebase.google.com/docs/firestore/quickstart#create) in **Test mode**.
 
-Update `FirebaseService` to contain:
+Update `FirebaseService` replacing `auth`, `currentUser`, and `users` properties with:
 
 ```ts
 class FirebaseService {
@@ -171,12 +191,37 @@ class FirebaseService {
   readonly currentUser = computed(() => this.auth.currentUserData);
 
   //...
+  
+  // List all user profiles.
+  readonly users = useFirestoreQuery(() => this.auth.signedIn ? this.usersCollection : null);
+
+  //...
 }
+```
+Add any missing imports. Remember to include:
+
+```ts
+import "firebase/firestore";
+import {useFirestoreQuery} from "./firebase-vue";
 ```
 
 Refresh the **Cloud Firestore** page. A new entry for your user should be visible.
 
 ### 3. Firestore for associated users with team
+
+Update `FirebaseService` replacing `teams` property with:
+
+```ts
+class FirebaseService {
+  //...
+
+  private readonly teamsCollection = firebase.firestore().collection('teams') as firebase.firestore.CollectionReference<Team>;
+  
+  readonly teams = useFirestoreQuery(() => this.auth.signedIn ? this.teamsCollection : null);
+
+  //...
+}
+```
 
 Implement `joinTeam()` method:
 
@@ -198,6 +243,13 @@ await this.joinTeam(teamRef.id);
 Test the new sign out functionality.
 
 Refresh the **Cloud Firestore** page. The teams you created should be visible.
+
+You might also redeploy the production version of the app.
+
+```bash
+quasar build
+firebase deploy
+```
 
 ## Thanks for checking out this workshop
 
