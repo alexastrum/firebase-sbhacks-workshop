@@ -119,9 +119,9 @@ class FirebaseService {
   readonly currentUser = computed<User | null>(
     () =>
       this.auth.currentUser && {
-        name: this.auth.currentUser.displayName || "",
-        photoURL: this.auth.currentUser.photoURL || "",
-        team: ""
+        name: this.auth.currentUser.displayName || '',
+        photoURL: this.auth.currentUser.photoURL || '',
+        team: ''
       }
   );
 
@@ -138,8 +138,8 @@ However any derived values would need to be wrapped in [computed](https://v3.vue
 Add any missing imports. Remember to include:
 
 ```ts
-import "firebase/auth";
-import {useFirebaseAuth} from "./firebase-vue";
+import 'firebase/auth';
+import {useFirebaseAuth} from './firebase-vue';
 ```
 
 Implement Firebase with Google Auth logic inside the `signIn()` method:
@@ -174,16 +174,16 @@ class FirebaseService {
   // The collection with user data, keyed by uid.
   private readonly usersCollection = firebase
     .firestore()
-    .collection("users") as firebase.firestore.CollectionReference<User>;
+    .collection('users') as firebase.firestore.CollectionReference<User>;
 
   // Firebase Auth state.
   private readonly auth = useFirebaseAuth<User>({
     // Fetch or create user data, after sign in.
     dataCollection: this.usersCollection,
     dataGetter: user => ({
-      name: user.displayName || "Anonymous",
-      photoURL: user.photoURL || "",
-      team: ""
+      name: user.displayName || 'Anonymous',
+      photoURL: user.photoURL || '',
+      team: ''
     })
   });
 
@@ -201,8 +201,8 @@ class FirebaseService {
 Add any missing imports. Remember to include:
 
 ```ts
-import "firebase/firestore";
-import {useFirestoreQuery} from "./firebase-vue";
+import 'firebase/firestore';
+import {useFirestoreQuery} from './firebase-vue';
 ```
 
 Refresh the **Cloud Firestore** page. A new entry for your user should be visible.
