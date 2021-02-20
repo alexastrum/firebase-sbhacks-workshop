@@ -138,8 +138,10 @@ However any derived values would need to be wrapped in [computed](https://v3.vue
 Add any missing imports. Remember to include:
 
 ```ts
+import { useFirebaseAuth } from './firebase-vue';
+import { computed } from '@vue/composition-api'
+import firebase from 'firebase/app'
 import 'firebase/auth';
-import {useFirebaseAuth} from './firebase-vue';
 ```
 
 Implement Firebase with Google Auth logic inside the `signIn()` method:
@@ -201,8 +203,8 @@ class FirebaseService {
 Add any missing imports. Remember to include:
 
 ```ts
-import 'firebase/firestore';
 import {useFirestoreQuery} from './firebase-vue';
+import 'firebase/firestore';
 ```
 
 Refresh the **Cloud Firestore** page. A new entry for your user should be visible.
